@@ -15,10 +15,10 @@ const CartView = () => {
             <Container className="my-5">
                 <Row className="justify-content-center">
                     <Col md={8}>
-                    <Card>
+                    <Card style={{borderBlockColor:"black",borderRadius:"2px"}}>
                         <Card.Header as="h2" className="d-flex justify-content-between align-items-center">
                             Your Cart
-                            <Badge pill bg="primary">
+                            <Badge pill bg="secondary">
                                 {totalQuantity} items
                             </Badge>
                         </Card.Header>
@@ -27,28 +27,43 @@ const CartView = () => {
                                 <ListGroup.Item>Your cart is empty.</ListGroup.Item>
                             ) : (
                                 items.map(item => (
-                                    <ListGroup.Item key={item.id} className="d-flex align-items-center justify-content-between">
-                                        <div>
+                                    <ListGroup.Item
+                                        key={item.id}
+                                        className="d-flex align-items-center justify-content-between py-3"
+                                    >
+                                        {/* Image */}
+                                        <div className="flex-shrink-0 me-3 d-flex align-items-center" style={{ width: 100, height: 100 }}>
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                                style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                                            />
+                                        </div>
+
+                                        {/* Details */}
+                                        <div className="flex-grow-1 me-3">
                                             <strong>{item.title}</strong>
-                                            <div>
-                                                ${item.price} x {item.quantity}
+                                            <div className="text-muted mt-1">
+                                                ${item.price} x {item.quantity} = <strong>${(item.price * item.quantity).toFixed(2)}</strong>
                                             </div>
                                         </div>
-                                        <div>
+
+                                        {/* Actions */}
+                                        <div className="d-flex align-items-center">
                                             <Button
-                                                variant="outline-secondary"
+                                                variant="danger"
                                                 size="sm"
                                                 className="me-2"
                                                 onClick={() => dispatch(decreaseQuantity(item.id))}
                                             >-</Button>
                                             <Button
-                                                variant="outline-secondary"
+                                                variant="success"
                                                 size="sm"
                                                 className="me-2"
                                                 onClick={() => dispatch(addToCart(item))}
                                             >+</Button>
                                             <Button
-                                                variant="outline-danger"
+                                                variant="primary"
                                                 size="sm"
                                                 onClick={() => dispatch(removeFromCart(item.id))}
                                             >Remove</Button>
